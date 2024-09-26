@@ -4,8 +4,64 @@
 
 {% block body %}
     <h1>Homepage</h1>
-    {% if app.user %}
-    <p>Welcome, {{ app.user.username }}!</p>
-    {% endif %}
-    <p>This is the homepage of the application.</p>
+    <div class="container">
+        <div class="row">
+            {% for article in articles %}
+                <div class="col-md-4">
+                    <!-- Article Card -->
+                    <div class="card mb-4">
+                        <img src="{{ asset('uploads/images/default.jpg') }}" class="card-img-top" alt="{{ article.title }}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ article.title }}</h5>
+                            <p class="card-text">{{ article.content|slice(0, 100) ~ '...' }}</p>
+                            <a href="{{ path('article_show', {'id': article.id}) }}" class="btn btn-primary">Lire la suite</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <!-- Newsletter Signup Form -->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Inscrivez-vous à la newsletter</h5>
+                        <!-- Newsletter Form -->
+                        <form>
+                            <div class="form-group">
+                                <input type="email" class="form-control" placeholder="Votre adresse email">
+                            </div>
+                            <button type="submit" class="btn btn-primary">S'inscrire</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Call to Action -->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Découvrez tous nos articles</h5>
+                        <a href="{{ path('article_index') }}" class="btn btn-primary">Voir tous les articles</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Premium Membership Call to Action -->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Devenez membre premium</h5>
+                        <p class="card-text">Accédez à des articles exclusifs et profitez de services supplémentaires.</p>
+                        <a href="{{ path('app_premium_membership') }}" class="btn btn-primary">Devenir membre premium</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
