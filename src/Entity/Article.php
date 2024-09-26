@@ -6,7 +6,8 @@ use App\Repository\ArticleRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: ArticleRepository::class)]
+#[ORM\Entity(repositoryClass: ArticleRepository::class)] // class ArticleRepository
+#[ORM\HasLifecycleCallbacks] // Ajout de l'annotation pour les méthodes de cycle de vie
 class Article
 {
     #[ORM\Id]
@@ -31,6 +32,25 @@ class Article
 
     #[ORM\Column(length: 255)]
     private ?string $author = null;
+
+    public function __construct()
+    {
+        $this->isPremium = false; // initialisation du booléen à false
+        $this->title = uniqid('article-'); // initialisation du titre au GUID
+    }
+
+    #[ORM\PrePersist]
+    public function setCreatedAtValue(): void
+    {
+        $this->created_at = new \DateTimeImmutable();
+        $this->setUpdatedAtValue();
+    }
+
+    #[ORM\PreUpdate]
+    public function setUpdatedAtValue(): void
+    {
+        $this->updated_at = new \DateTimeImmutable();
+    }
 
     public function getId(): ?int
     {
