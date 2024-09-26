@@ -6,6 +6,7 @@ use App\Repository\ArticleRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class HomeController extends AbstractController
 {
@@ -20,17 +21,5 @@ class HomeController extends AbstractController
                 6
             )
         ]);
-    }
-
-    #[Route('/show', name: 'article_index', methods: ['GET'])]
-    public function show(ArticleRepository $articles): Response
-    {
-        return $this->render('home/show.html.twig', [
-            'allArticles' => $articles->findBy(
-                [],
-                ['created_at' => 'DESC'],
-                6
-            )
-        ]);
-    }
+    }   
 }
